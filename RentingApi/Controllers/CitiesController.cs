@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace RentingApi.Controllers
 {
-    [ApiExplorerSettings(IgnoreApi = true)]
+    //[ApiExplorerSettings(IgnoreApi = false)]
     [Route("api/[controller]")]
     [ApiController]
     public class CitiesController : ControllerBase

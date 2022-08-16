@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 namespace JWTAuthentication.Controllers
 {
 
-    [ApiExplorerSettings(IgnoreApi = false)]
+    //[ApiExplorerSettings(IgnoreApi = false)]
     [Route("api/[controller]")]
     [ApiController]
     public class AuthenticateController : ControllerBase

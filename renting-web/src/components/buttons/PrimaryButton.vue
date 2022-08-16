@@ -1,9 +1,12 @@
 <template>
-  <div
-    class="primary-btn border-2 flex items-center h-10 px-3 rounded-lg text-white cursor-pointer"
+  <button
+    type="button"
+    :disabled="disabled"
+    :class="disabled ? ' cursor-default bg-gray-500' : buttonClass"
+    class="primary-btn border-2 flex items-center h-10 px-3 rounded-lg text-white"
   >
     <p class="font-semibold text-base">{{ text }}</p>
-  </div>
+  </button>
 </template>
 
 <script>
@@ -12,6 +15,14 @@ export default {
   props: {
     text: {
       type: String,
+    },
+    disabled: {
+      type: Boolean,
+      default: false,
+    },
+    buttonClass: {
+      type: String,
+      default: 'bg-green-500 hover:bg-green-600',
     },
   },
 };

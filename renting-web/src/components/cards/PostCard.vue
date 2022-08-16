@@ -18,7 +18,8 @@
     </div>
     <primary-button
       text="Show details"
-      class="bg-blue-500 hover:bg-blue-600 w-32 mx-auto"
+      buttonClass="bg-blue-500 hover:bg-blue-600"
+      class="w-32 mx-auto"
     ></primary-button>
   </div>
 </template>

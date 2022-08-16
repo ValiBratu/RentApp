@@ -1,5 +1,5 @@
 <template>
-  <div class="home flex place-content-center mt-28">
+  <div class="home flex place-content-center">
     <div class="filters"></div>
     <div class="w-5/6 h-full shadow-md p-10">
       <div
@@ -19,6 +19,7 @@
 import { onMounted, reactive } from '@vue/runtime-core';
 import PostCard from '../components/cards/PostCard.vue';
 import { useStore } from 'vuex';
+
 export default {
   name: 'Home',
   components: { PostCard },
@@ -32,7 +33,6 @@ export default {
       if (response && response.status === 200) {
         state.posts = response.data;
       }
-      console.log(response);
     });
     return { state };
   },
