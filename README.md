@@ -50,9 +50,9 @@ For Backend:
 
 For Frontend:
 
-- React Js
+- Vue js 3/Vuex
 - Html/Css
-- Bootstrap
+- Tailwind css
 
 
 ## To run this project
