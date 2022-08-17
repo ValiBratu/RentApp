@@ -6,26 +6,51 @@
         <p class="font-semibold text-xl">Rentify</p>
       </router-link>
       <div class="profile flex items-center">
-        <p
-          class="font-semibold text-base mr-2 hover:text-green-600 cursor-pointer"
-        >
-          Sign in
-        </p>
-        <router-link to="/register">
-          <primary-button text="Sign up"></primary-button>
-        </router-link>
+        <div v-if="!store.getters.userData.token" class="flex items-center">
+          <router-link
+            to="/login"
+            class="font-semibold text-base mr-2 hover:text-green-600 cursor-pointer"
+          >
+            Sign in
+          </router-link>
+          <router-link to="/register">
+            <primary-button text="Sign up"></primary-button>
+          </router-link>
+        </div>
+        <div v-else class="flex items-center">
+          <router-link
+            to="/Profile"
+            class="font-semibold text-base mr-2 hover:text-green-600 cursor-pointer"
+          >
+            Profile
+          </router-link>
+          <p
+            class="font-semibold text-base mr-2 hover:text-red-600 cursor-pointer"
+            @click="logout"
+          >
+            Log out
+          </p>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import { useRouter } from 'vue-router';
+import { useStore } from 'vuex';
 import PrimaryButton from '../buttons/PrimaryButton.vue';
 export default {
   name: 'Navbar',
   components: { PrimaryButton },
   setup() {
-    return {};
+    const store = useStore();
+    const router = useRouter();
+    let logout = () => {
+      window.localStorage.clear();
+      router.go('/');
+    };
+    return { store, logout };
   },
 };
 </script>

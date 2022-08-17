@@ -16,12 +16,21 @@ const actions = {
         } catch (error) {
             return error.response;
         }
+    },
+    async authenticateUser({commit},params){
+        try {
+            let response = await axios.post(`${baseUrl}Authenticate/login`,params);
+            commit('setuserData',response.data);
+            return response;
+        } catch (error) {
+            return error.response;
+        }
     }
 
 }
 const mutations = {
     setuserData:(state,payload)=>{
-        state.userData = payload
+        state.userData = {...payload}
     }
 }
 export default{

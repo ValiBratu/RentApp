@@ -68,6 +68,7 @@ import PrimaryButton from '../components/buttons/PrimaryButton.vue';
 import { watch } from '@vue/runtime-core';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
+import Swal from 'sweetalert2';
 export default {
   name: 'Register',
   components: { PrimaryButton },
@@ -92,7 +93,13 @@ export default {
       if (form.value.checkValidity()) {
         let response = await store.dispatch('registeruser', state.user);
         if (response && response.status === 200) {
-          router.push('/login');
+          Swal.fire({
+            title: 'Good job!',
+            text: 'Your account has been created!',
+            icon: 'success',
+          }).then(function () {
+            router.push('/login');
+          });
         }
         state.errorMessage = response.data.message;
       }
