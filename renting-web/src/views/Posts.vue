@@ -1,5 +1,5 @@
 <template>
-  <div class="home flex place-content-center">
+  <div class="posts flex place-content-center">
     <div class="filters"></div>
     <div class="w-5/6 h-full shadow-md p-10">
       <div
@@ -38,4 +38,8 @@ export default {
   },
 };
 </script>
-<style scoped></style>
+<style scoped>
+.posts {
+  background-color: mintcream;
+}
+</style>

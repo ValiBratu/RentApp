@@ -55,4 +55,8 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped>
+.navbar {
+  background-color: mintcream;
+}
+</style>
