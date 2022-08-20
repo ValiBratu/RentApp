@@ -20,7 +20,7 @@
         <div v-else class="flex items-center">
           <router-link
             to="/Profile"
-            class="font-semibold text-base mr-2 hover:text-green-600 cursor-pointer"
+            class="font-semibold text-base mr-3 hover:text-green-600 cursor-pointer"
           >
             Profile
           </router-link>

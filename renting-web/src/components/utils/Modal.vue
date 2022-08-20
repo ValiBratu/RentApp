@@ -5,6 +5,7 @@
     class="modal fixed z-50 w-full h-full top-0 left-0 bg-black bg-opacity-40"
   >
     <div
+      :class="modalContentClass"
       class="modal-content absolute top-1/2 left-1/2 transform -translate-y-1/2 -translate-x-1/2 bg-white rounded-xl overflow-auto max-h-screen"
     >
       <span
@@ -28,6 +29,10 @@ export default {
     showCloseButton: {
       type: Boolean,
       default: true,
+    },
+    modalContentClass: {
+      type: String,
+      default: '',
     },
   },
   setup() {
