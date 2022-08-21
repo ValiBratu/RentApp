@@ -100,6 +100,7 @@ export default {
           }).then(function () {
             router.push('/login');
           });
+          return;
         }
         state.errorMessage = response.data.message;
       }

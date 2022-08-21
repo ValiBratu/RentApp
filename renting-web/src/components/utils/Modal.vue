@@ -2,15 +2,15 @@
   <div
     @click.self="closeModal"
     v-if="state.modalIsOpen"
-    class="modal fixed z-50 w-full h-full top-0 left-0 bg-black bg-opacity-40"
+    class="modal fixed z-50 w-full h-full top-0 left-0 bg-black bg-opacity-40 pointer-events-none"
   >
     <div
       :class="modalContentClass"
-      class="modal-content absolute top-1/2 left-1/2 transform -translate-y-1/2 -translate-x-1/2 bg-white rounded-xl overflow-auto max-h-screen"
+      class="modal-content pointer-events-auto absolute top-1/2 left-1/2 transform -translate-y-1/2 -translate-x-1/2 bg-white rounded-xl overflow-auto max-h-screen"
     >
       <span
         v-if="showCloseButton"
-        class="absolute w-6 cursor-pointer z-10 top-4 right-4 md:top-6 md:right-6"
+        class="absolute text-xl w-6 cursor-pointer z-10 top-0 right-4 md:top-4 md:right-6"
         @click="closeModal"
       >
         X

@@ -20,9 +20,10 @@
         <div v-else class="flex items-center">
           <router-link
             to="/Profile"
-            class="font-semibold text-base mr-3 hover:text-green-600 cursor-pointer"
+            class="flex items-center hover:text-green-600 cursor-pointer"
           >
-            Profile
+            <i class="pi pi-user mr-2"></i>
+            <p class="font-semibold text-base mr-3">Profile</p>
           </router-link>
           <p
             class="font-semibold text-base mr-2 hover:text-red-600 cursor-pointer"
@@ -46,9 +47,10 @@ export default {
   setup() {
     const store = useStore();
     const router = useRouter();
-    let logout = () => {
+    let logout = async () => {
       window.localStorage.clear();
-      router.go('/');
+      await router.push({ name: 'Home' });
+      window.location.reload();
     };
     return { store, logout };
   },
