@@ -1,5 +1,5 @@
 import axios from "axios"
-
+import {parseJwt} from "../../components/composables/utils.js";
 let baseUrl = 'https://localhost:44364/api/';
 
 const state = {
@@ -30,7 +30,7 @@ const actions = {
 }
 const mutations = {
     setuserData:(state,payload)=>{
-        state.userData = {...payload}
+        state.userData = {...payload,...parseJwt(payload.token)}
     }
 }
 export default{

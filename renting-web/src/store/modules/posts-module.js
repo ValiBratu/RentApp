@@ -42,7 +42,14 @@ const actions = {
             return error.response;
         }
     },
- 
+    async addNewRentPost(_,params){
+        try {
+            let response = await axios.post(`${baseUrl}RentPost`,params);
+            return response;
+        } catch (error) {
+            return error.response;
+        }
+    }
 
 }
 const mutations = {

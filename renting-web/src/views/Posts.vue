@@ -1,7 +1,7 @@
 <template>
   <div class="posts flex place-content-center mb-10">
     <div class="posts-container w-5/6 h-full shadow-md p-10">
-      <div class="filters relative w-full">
+      <div class="filters relative w-full md:mb-0 sm:mb-16">
         <p class="text-xl font-semibold mb-4">Filters</p>
         <div>
           <p class="text-base font-semibold mb-2">Select a city:</p>
@@ -38,6 +38,11 @@
               @slideend="filterByPrice"
             ></Slider>
           </div>
+          <primary-button
+            :text="state.sortNewest ? 'See oldest' : 'See newest'"
+            buttonClass="bg-blue-500 hover:bg-blue-600 absolute md:right-0 mt-4"
+            @click="sortByDate"
+          ></primary-button>
         </div>
         <primary-button
           text="Add a new post"
@@ -61,7 +66,7 @@
       </div>
     </div>
     <modal ref="modal" :showCloseButton="true">
-      <add-rent-post></add-rent-post>
+      <add-rent-post @confirmAdd="confirmAddPost"></add-rent-post>
     </modal>
     <loading ref="loading"></loading>
   </div>
@@ -97,15 +102,18 @@ export default {
       rooms: [],
       numberOfRooms: 0,
       priceRange: [0, 1000],
+      sortNewest: true,
     });
     let loading = ref(null);
     let modal = ref(null);
     let fetchPosts = async () => {
       let response = await store.dispatch('fetchRentPosts');
       if (response && response.status === 200) {
-        state.posts = response.data.map(post => {
-          return post.rentPost;
-        });
+        state.posts = response.data
+          .map(post => {
+            return post.rentPost;
+          })
+          .reverse();
         state.rooms = [
           ...new Set(
             response.data.map(post => {
@@ -167,6 +175,15 @@ export default {
       );
       state.posts = newList;
     };
+    let confirmAddPost = () => {
+      fetchPosts();
+      modal.value.closeModal();
+    };
+
+    let sortByDate = () => {
+      state.sortNewest = !state.sortNewest;
+      state.posts.reverse();
+    };
 
     let openModal = () => {
       modal.value.showModal();
@@ -186,6 +203,8 @@ export default {
       filterByPrice,
       openModal,
       modal,
+      confirmAddPost,
+      sortByDate,
     };
   },
 };
