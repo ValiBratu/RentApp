@@ -19,7 +19,7 @@
         </div>
         <div v-else class="flex items-center">
           <router-link
-            to="/Profile"
+            :to="`/user/${store.getters.userData.id}`"
             class="flex items-center hover:text-green-600 cursor-pointer"
           >
             <i class="pi pi-user mr-2"></i>

@@ -1,11 +1,5 @@
 
 import { createRouter, createWebHistory } from 'vue-router'
-import store from '@/store';
-
-
-let isAuthenticated = async() => {
-  return await store.getters.userData.token? true:false
-}
 
 const routes = [
   {
@@ -17,37 +11,29 @@ const routes = [
     path: '/register',
     name: 'Register',
     component: () => import(/* webpackChunkName: "register" */ '../views/Register.vue'),
-    beforeEnter:(to,from,next)=>{
-      if(isAuthenticated()){
-        next({
-          name: 'Home',
-        })
-      }
-      else{
-        next()
-      }
-    }
+
   },
   {
     path: '/login',
     name: 'Login',
     component: () => import(/* webpackChunkName: "login" */ '../views/Login.vue'),
-    beforeEnter:(to,from,next)=>{
-      if(isAuthenticated()){
-        next({
-          name: 'Home',
-        })
-      }
-      else{
-        next()
-      }
-    }
+  
   },
   {
     path: '/posts',
     name: 'Posts',
     component: () => import(/* webpackChunkName: "posts" */ '../views/Posts.vue')
   },
+  {
+    path: '/user/:id',
+    name: 'user-profile',
+    component: () => import(/* webpackChunkName: "userProfile" */ '../views/UserProfile.vue')
+  },
+  {
+    path:"/:catchAll(.*)",
+    name:'NotFound',
+    component: () => import(/* webpackChunkName: "notFound" */ '../views/NotFoundPage.vue')
+  }
 ]
 
 const router = createRouter({
