@@ -93,7 +93,7 @@ namespace RentingApi.Controllers
                             Email= post.User.Email,
                             Phone= post.User.PhoneNumber
                         };
-
+            
             return query.ToList();
 
         }

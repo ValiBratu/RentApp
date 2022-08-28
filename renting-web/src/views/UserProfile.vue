@@ -1,5 +1,5 @@
 <template>
-  <div class="user-profile m-auto w-4/6 shadow-lg p-5">
+  <div class="user-profile m-auto w-4/6 shadow-lg p-5 mb-10">
     <div class="profile-head flex gap-4">
       <img
         :class="

@@ -82,7 +82,8 @@ const actions = {
         } catch (error) {
             return error.response;
         }
-    }
+    },
+  
 
 }
 const mutations = {
