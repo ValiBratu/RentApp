@@ -16,11 +16,13 @@
         Price: {{ card.price }}$
       </p>
     </div>
-    <primary-button
-      text="Show details"
-      buttonClass="bg-blue-500 hover:bg-blue-600"
-      class="w-32 mx-auto"
-    ></primary-button>
+    <router-link :to="`/post/${card.id}`">
+      <primary-button
+        text="Show details"
+        buttonClass="bg-blue-500 hover:bg-blue-600"
+        class="w-32 mx-auto"
+      ></primary-button>
+    </router-link>
   </div>
 </template>
 

@@ -30,6 +30,11 @@ const routes = [
     component: () => import(/* webpackChunkName: "userProfile" */ '../views/UserProfile.vue')
   },
   {
+    path: '/post/:id',
+    name: 'rent-post',
+    component: () => import(/* webpackChunkName: "rentPostPage" */ '../views/rentPost/RentPostPage.vue')
+  },
+  {
     path:"/:catchAll(.*)",
     name:'NotFound',
     component: () => import(/* webpackChunkName: "notFound" */ '../views/NotFoundPage.vue')

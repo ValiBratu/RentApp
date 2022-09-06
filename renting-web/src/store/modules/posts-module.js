@@ -4,11 +4,13 @@ let baseUrl = 'https://localhost:44364/api/';
 
 const state = {
   rentPosts:[],
-  cities:[]
+  cities:[],
+  postDetails:{}
 }
 const getters = {
     rentPosts: state => state.rentPosts,
-    cities:state => state.cities
+    cities:state => state.cities,
+    postDetails:state=>state.postDetails
 }
 const actions = {
     async fetchRentPosts({commit}){
@@ -49,7 +51,33 @@ const actions = {
         } catch (error) {
             return error.response;
         }
+    },
+    async fetchPostDetails({commit},params){
+        try {
+            let response = await axios.get(`${baseUrl}RentPost/${params.id}/Details`)
+            commit('setPostDetails',response.data);
+            return response;
+        } catch (error) {
+            return error.response;
+        }
+    },
+    async fetchPostPhotos(_,params){
+        try {
+            let response = await axios.get(`${baseUrl}RentPostPhotos/post/${params.id}`);
+            return response;
+        } catch (error) {
+            return error.response;
+        }
+    },
+    async addPostPhoto(_,params){
+        try {
+            let response = await axios.post(`${baseUrl}RentPostPhotos`,params);
+            return response
+        } catch (error) {
+            return error.response;
+        }
     }
+
 
 }
 const mutations = {
@@ -58,6 +86,9 @@ const mutations = {
     },
     setCities:(state,payload)=>{
         state.cities = payload
+    },
+    setPostDetails:(state,payload)=>{
+        state.postDetails = payload;
     }
 }
 export default{
