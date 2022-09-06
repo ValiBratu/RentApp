@@ -76,6 +76,15 @@ const actions = {
         } catch (error) {
             return error.response;
         }
+    },
+    async editPostDetails({commit},params){
+        try {
+            let response = await axios.put(`${baseUrl}RentPost/${params.postId}`,params);
+            commit('setPostDetails',response.data);
+            return response;
+        } catch (error) {
+            return error.response;
+        }
     }
 
 

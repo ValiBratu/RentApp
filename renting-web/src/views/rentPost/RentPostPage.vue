@@ -11,7 +11,7 @@
       <template #item="slotProps">
         <img
           :src="`data:image/jpeg;base64,${slotProps.data.photo}`"
-          class="w-full rounded-md"
+          class="w-full rounded-md carousel-image"
         />
       </template>
     </Carousel>
@@ -79,6 +79,12 @@
             >{{ `${state.post.userName}` }}</router-link
           >
         </div>
+        <primary-button
+          v-if="store.getters.userData.id === state.post.userId"
+          text="Edit post info"
+          class="mt-4"
+          @click="openEditModal"
+        ></primary-button>
       </div>
     </div>
     <loading ref="loading"></loading>
@@ -89,6 +95,12 @@
       class="hidden"
       @change="addPostPhoto"
     />
+    <modal ref="modal">
+      <add-rent-post
+        :details="state.post"
+        @confirmAdd="confirmEdit"
+      ></add-rent-post>
+    </modal>
   </div>
 </template>
 
@@ -100,9 +112,11 @@ import { useRoute } from 'vue-router';
 import Carousel from 'primevue/carousel';
 import Loading from '../../components/utils/Loading.vue';
 import PrimaryButton from '../../components/buttons/PrimaryButton.vue';
+import Modal from '../../components/utils/Modal.vue';
+import AddRentPost from '../../components/forms/AddRentPost.vue';
 export default {
   name: 'RentPostPage',
-  components: { Carousel, Loading, PrimaryButton },
+  components: { Carousel, Loading, PrimaryButton, Modal, AddRentPost },
   setup() {
     const store = useStore();
     const route = useRoute();
@@ -111,6 +125,7 @@ export default {
       photos: [],
       tab: 'info',
     });
+    let modal = ref(null);
     const tabs = [
       {
         name: 'info',
@@ -168,6 +183,9 @@ export default {
         }
       };
     };
+    let openEditModal = () => {
+      modal.value.showModal();
+    };
     let showLoading = () => {
       loading.value.openModal();
     };
@@ -176,6 +194,10 @@ export default {
     };
     let changeTab = tab => {
       state.tab = tab;
+    };
+    let confirmEdit = () => {
+      setPostDetails();
+      modal.value.closeModal();
     };
     onMounted(async () => {
       showLoading();
@@ -192,6 +214,9 @@ export default {
       imageInput,
       openImageInput,
       addPostPhoto,
+      modal,
+      openEditModal,
+      confirmEdit,
     };
   },
 };
@@ -204,5 +229,9 @@ export default {
 .info-row {
   @apply grid grid-cols-2 md:h-10 sm:h-16;
   grid-template-columns: 140px auto;
+}
+.carousel-image {
+  max-height: 600px;
+  object-fit: cover;
 }
 </style>

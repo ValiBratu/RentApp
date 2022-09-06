@@ -86,42 +86,64 @@ import { useStore } from 'vuex';
 import PrimaryButton from '../buttons/PrimaryButton.vue';
 import { watch } from '@vue/runtime-core';
 import ProgressSpinner from 'primevue/progressspinner';
+import { useRoute } from 'vue-router';
 export default {
   name: 'AddRentPost',
   components: { Dropdown, PrimaryButton, ProgressSpinner },
+  props: {
+    details: {
+      type: Object,
+    },
+  },
   emits: ['confirmAdd'],
   setup(props, { emit }) {
     const store = useStore();
     let state = reactive({
       post: {
-        title: '',
-        description: '',
-        city: '',
-        location: '',
-        price: '',
-        rooms: '',
+        title: props.details ? props.details.title : '',
+        description: props.details ? props.details.description : '',
+        city: props.details ? props.details.cityId : '',
+        location: props.details ? props.details.location : '',
+        price: props.details ? props.details.price : '',
+        rooms: props.details ? props.details.rooms : '',
       },
       loading: false,
-      buttonState: true,
+      buttonState: props.details ? false : true,
     });
     let submit = ref(null);
     let form = ref(null);
+    const route = useRoute();
     let saveRentPost = async () => {
       submit.value.click();
       if (form.value.checkValidity()) {
         state.loading = true;
-        let response = await store.dispatch('addNewRentPost', {
-          Title: state.post.title,
-          Description: state.post.description,
-          Location: state.post.location,
-          Price: state.post.price,
-          UserId: store.getters.userData.id,
-          CityId: state.post.city,
-          Rooms: state.post.rooms,
-        });
-        if (response && response.status === 201) {
-          state.loading = false;
+        let response = null;
+        if (props.details) {
+          response = await store.dispatch('editPostDetails', {
+            Title: state.post.title,
+            Description: state.post.description,
+            Location: state.post.location,
+            Price: state.post.price,
+            UserId: store.getters.userData.id,
+            CityId: state.post.city,
+            Rooms: state.post.rooms,
+            postId: route.params.id,
+          });
+        } else {
+          response = await store.dispatch('addNewRentPost', {
+            Title: state.post.title,
+            Description: state.post.description,
+            Location: state.post.location,
+            Price: state.post.price,
+            UserId: store.getters.userData.id,
+            CityId: state.post.city,
+            Rooms: state.post.rooms,
+          });
+        }
+
+        if (response && (response.status === 201 || response.status === 204)) {
           emit('confirmAdd');
+          state.loading = false;
         }
       }
     };
