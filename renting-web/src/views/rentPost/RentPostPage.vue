@@ -34,7 +34,7 @@
     <hr />
     <div class="post-details mt-10">
       <ul
-        class="flex flex-wrap text-sm font-medium text-center text-gray-500 border-b border-gray-200 dark:border-gray-700 dark:text-gray-400"
+        class="flex flex-wrap relative text-sm font-medium text-center text-gray-500 border-b border-gray-200 dark:border-gray-700 dark:text-gray-400"
       >
         <li
           v-for="(tab, index) in tabs"
@@ -44,6 +44,23 @@
           @click="changeTab(tab.name)"
         >
           {{ tab.text }}
+        </li>
+
+        <li
+          v-if="state.favoritePosts.some(elem => elem.id === state.post.id)"
+          class="p-4 absolute right-4 cursor-pointer hover:text-red-400"
+          @click="removePostFromFavorites"
+        >
+          Remove from favorites
+          <i class="pi pi-star"></i>
+        </li>
+        <li
+          v-else
+          class="p-4 absolute right-4 cursor-pointer hover:text-yellow-300"
+          @click="addPostToFavorites"
+        >
+          Add to favorites
+          <i class="pi pi-star-fill"></i>
         </li>
       </ul>
       <div v-if="state.tab === 'info'" class="basic-info mt-4">
@@ -124,6 +141,7 @@ export default {
       post: {},
       photos: [],
       tab: 'info',
+      favoritePosts: [],
     });
     let modal = ref(null);
     const tabs = [
@@ -155,6 +173,14 @@ export default {
         state.photos = response.data;
       }
     };
+    let setUserFavorites = async () => {
+      let response = await store.dispatch('fetchUserFavorites', {
+        id: store.getters.userData.id,
+      });
+      if (response && response.status === 200) {
+        state.favoritePosts = response.data;
+      }
+    };
     let openImageInput = () => {
       imageInput.value.click();
     };
@@ -183,6 +209,34 @@ export default {
         }
       };
     };
+    let addPostToFavorites = async () => {
+      let response = await store.dispatch('addPostToFavorites', {
+        userId: store.getters.userData.id,
+        RentPostId: route.params.id,
+      });
+
+      if (response && response.status === 201) {
+        state.favoritePosts.push({
+          id: response.data.rentPostId,
+        });
+      }
+    };
+    let removePostFromFavorites = async () => {
+      let response = await store.dispatch('removePostFromFavorites', {
+        userId: store.getters.userData.id,
+        postId: route.params.id,
+      });
+      if (response && response.status === 200) {
+        let filteredPosts = [];
+        state.favoritePosts.forEach(elem => {
+          if (elem.id.toString() !== route.params.id.toString()) {
+            filteredPosts.push(elem);
+          }
+        });
+
+        state.favoritePosts = [...filteredPosts];
+      }
+    };
     let openEditModal = () => {
       modal.value.showModal();
     };
@@ -203,6 +257,7 @@ export default {
       showLoading();
       await setPostDetails();
       await setPostPhotos();
+      await setUserFavorites();
       hideLoading();
     });
     return {
@@ -217,6 +272,8 @@ export default {
       modal,
       openEditModal,
       confirmEdit,
+      addPostToFavorites,
+      removePostFromFavorites,
     };
   },
 };

@@ -85,6 +85,22 @@ const actions = {
         } catch (error) {
             return error.response;
         }
+    },
+    async addPostToFavorites(_,params){
+        try{
+            let response = await axios.post(`${baseUrl}UserFavorites`,params)
+            return response;
+        }catch(error){
+            return error.response;
+        }
+    },
+    async removePostFromFavorites(_,params){
+        try {
+            let response = await axios.delete(`${baseUrl}UserFavorites/${params.userId}/post/${params.postId}`);
+            return response;
+        } catch (error) {
+            return error.reponse;
+        }
     }
 
 
